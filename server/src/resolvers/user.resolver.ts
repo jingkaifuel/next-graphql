@@ -6,7 +6,7 @@ import { IUser } from "../models/user.model";
 export default {
   Query: {
     // Get current logged in user details
-    getCurrentUser: async (_, __, ctx): Promise<IUser[]> => {
+    currentUser: async (_, __, ctx): Promise<IUser[]> => {
       return await ctx?.user;
     },
   },
@@ -73,7 +73,7 @@ export default {
 
       return { token: accessToken, user };
     },
-    // Create new user
+
     createUser: async (_, args, ctx) => {
       // Only admin can create user
       if (ctx?.user?.position.toLowerCase() != "admin") {
@@ -89,7 +89,6 @@ export default {
         throw new Error(e);
       }
     },
-    // Update existing user details
     updateUser: async (_, args, ctx) => {
       const { _id, user: userUpdate } = args;
 

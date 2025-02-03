@@ -5,18 +5,21 @@ const populatedFields = ["claimType", "createdBy", "approvedBy", "status"];
 
 export default {
   Query: {
-    // Get all claims
-    getClaims: async (): Promise<IClaim[]> => {
+    claims: async (): Promise<IClaim[]> => {
       return await Claim.find().populate(populatedFields);
     },
-    // Get Claim by ID
-    getClaim: async (_, { _id }): Promise<IClaim> => {
+    claimById: async (_, { _id }): Promise<IClaim> => {
       return await Claim.findById({ _id }).populate(populatedFields);
+    },
+    claimsByUser: async (_, __, ctx): Promise<IClaim[]> => {
+      const { user } = ctx;
+      return await Claim.find({ createdBy: user._id }).populate(
+        populatedFields
+      );
     },
   },
 
   Mutation: {
-    // Create a claim
     createClaim: async (_, args, ctx): Promise<IClaim> => {
       const { user } = ctx;
       if (!user) throw new Error("Unauthorised");
@@ -35,8 +38,6 @@ export default {
         throw new Error(e);
       }
     },
-
-    // Update an existing claim at given claim ID
     updateClaim: async (_, args, ctx): Promise<IClaim> => {
       if (!ctx?.user) throw new Error("Unauthorised");
       const { _id, data } = args;

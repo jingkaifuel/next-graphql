@@ -3,8 +3,9 @@ import { gql } from "graphql-tag";
 // Define the GraphQL schema
 export default gql`
   type Query {
-    getClaims: [Claim!]!
-    getClaim(_id: String!): Claim!
+    claims: [Claim!]!
+    claimById(_id: String!): Claim!
+    claimsByUser: [Claim!]!
   }
 
   type Mutation {

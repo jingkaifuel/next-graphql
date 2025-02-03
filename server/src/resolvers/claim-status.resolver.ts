@@ -3,18 +3,12 @@ import { IClaimStatus } from "../models/claim-status.model";
 
 export default {
   Query: {
-    // Get all claimStatus
-    getClaimStatuses: async (): Promise<IClaimStatus[]> => {
-      return await ClaimStatus.find();
-    },
-    // Get ClaimStatus by ID
-    getClaimStatus: async (_, { _id }): Promise<IClaimStatus> => {
-      return await ClaimStatus.findById({ _id });
+    claimStatuses: async (): Promise<IClaimStatus[]> => {
+      return await ClaimStatus.find({ isActive: true });
     },
   },
 
   Mutation: {
-    // Create a claimStatus
     createClaimStatus: async (_, args, ctx): Promise<IClaimStatus> => {
       if (!ctx?.user) throw new Error("Unauthorised");
       const { data } = args;
@@ -25,8 +19,6 @@ export default {
         throw new Error(e);
       }
     },
-
-    // Update an existing claimStatus at given claimStatus ID
     updateClaimStatus: async (_, args, ctx): Promise<IClaimStatus> => {
       if (!ctx?.user) throw new Error("Unauthorised");
       const { _id, data } = args;

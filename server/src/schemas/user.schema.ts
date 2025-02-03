@@ -3,7 +3,7 @@ import { gql } from "graphql-tag";
 // Define the GraphQL schema
 export default gql`
   type Query {
-    getCurrentUser: User
+    currentUser: User
   }
 
   type Mutation {

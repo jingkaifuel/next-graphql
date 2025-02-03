@@ -36,16 +36,11 @@ export type Claim = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
-export type ClaimInput = {
+export type ClaimCreateInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
-  approvedBy?: InputMaybe<Scalars['ID']['input']>;
   claimType?: InputMaybe<Scalars['ID']['input']>;
-  createdAt?: InputMaybe<Scalars['String']['input']>;
-  createdBy?: InputMaybe<Scalars['ID']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   remark?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Scalars['ID']['input']>;
-  updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ClaimLimit = {
@@ -96,6 +91,18 @@ export type ClaimTypeInput = {
   name: Scalars['String']['input'];
 };
 
+export type ClaimUpdateInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  approvedBy?: InputMaybe<Scalars['ID']['input']>;
+  claimType?: InputMaybe<Scalars['ID']['input']>;
+  createdAt?: InputMaybe<Scalars['String']['input']>;
+  createdBy?: InputMaybe<Scalars['ID']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  remark?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['ID']['input']>;
+  updatedAt?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createClaim?: Maybe<Claim>;
@@ -114,7 +121,7 @@ export type Mutation = {
 
 
 export type MutationCreateClaimArgs = {
-  data: ClaimInput;
+  data: ClaimCreateInput;
 };
 
 
@@ -151,7 +158,7 @@ export type MutationRefreshArgs = {
 
 export type MutationUpdateClaimArgs = {
   _id: Scalars['String']['input'];
-  data: ClaimInput;
+  data: ClaimUpdateInput;
 };
 
 
@@ -180,35 +187,31 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getClaim: Claim;
-  getClaimLimit: ClaimLimit;
-  getClaimLimits: Array<ClaimLimit>;
-  getClaimStatus: ClaimStatus;
-  getClaimStatuses?: Maybe<Array<Maybe<ClaimStatus>>>;
-  getClaimType: ClaimType;
-  getClaimTypes: Array<ClaimType>;
-  getClaims: Array<Claim>;
-  getCurrentUser?: Maybe<User>;
+  claimById: Claim;
+  claimLimitById?: Maybe<ClaimLimit>;
+  claimLimits: Array<ClaimLimit>;
+  claimLimitsByUser: Array<ClaimLimit>;
+  claimStatuses: Array<ClaimStatus>;
+  claimTypeById?: Maybe<ClaimType>;
+  claimTypes: Array<ClaimType>;
+  claims: Array<Claim>;
+  claimsByUser: Array<Claim>;
+  currentUser?: Maybe<User>;
 };
 
 
-export type QueryGetClaimArgs = {
+export type QueryClaimByIdArgs = {
   _id: Scalars['String']['input'];
 };
 
 
-export type QueryGetClaimLimitArgs = {
-  _id: Scalars['String']['input'];
+export type QueryClaimLimitByIdArgs = {
+  _id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
-export type QueryGetClaimStatusArgs = {
-  _id: Scalars['String']['input'];
-};
-
-
-export type QueryGetClaimTypeArgs = {
-  _id: Scalars['String']['input'];
+export type QueryClaimTypeByIdArgs = {
+  _id: Scalars['ID']['input'];
 };
 
 export type User = {
@@ -299,13 +302,14 @@ export type ResolversTypes = {
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Claim: ResolverTypeWrapper<Claim>;
-  ClaimInput: ClaimInput;
+  ClaimCreateInput: ClaimCreateInput;
   ClaimLimit: ResolverTypeWrapper<ClaimLimit>;
   ClaimLimitInput: ClaimLimitInput;
   ClaimStatus: ResolverTypeWrapper<ClaimStatus>;
   ClaimStatusInput: ClaimStatusInput;
   ClaimType: ResolverTypeWrapper<ClaimType>;
   ClaimTypeInput: ClaimTypeInput;
+  ClaimUpdateInput: ClaimUpdateInput;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -320,13 +324,14 @@ export type ResolversParentTypes = {
   AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean']['output'];
   Claim: Claim;
-  ClaimInput: ClaimInput;
+  ClaimCreateInput: ClaimCreateInput;
   ClaimLimit: ClaimLimit;
   ClaimLimitInput: ClaimLimitInput;
   ClaimStatus: ClaimStatus;
   ClaimStatusInput: ClaimStatusInput;
   ClaimType: ClaimType;
   ClaimTypeInput: ClaimTypeInput;
+  ClaimUpdateInput: ClaimUpdateInput;
   Float: Scalars['Float']['output'];
   ID: Scalars['ID']['output'];
   Mutation: {};
@@ -399,15 +404,16 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getClaim?: Resolver<ResolversTypes['Claim'], ParentType, ContextType, RequireFields<QueryGetClaimArgs, '_id'>>;
-  getClaimLimit?: Resolver<ResolversTypes['ClaimLimit'], ParentType, ContextType, RequireFields<QueryGetClaimLimitArgs, '_id'>>;
-  getClaimLimits?: Resolver<Array<ResolversTypes['ClaimLimit']>, ParentType, ContextType>;
-  getClaimStatus?: Resolver<ResolversTypes['ClaimStatus'], ParentType, ContextType, RequireFields<QueryGetClaimStatusArgs, '_id'>>;
-  getClaimStatuses?: Resolver<Maybe<Array<Maybe<ResolversTypes['ClaimStatus']>>>, ParentType, ContextType>;
-  getClaimType?: Resolver<ResolversTypes['ClaimType'], ParentType, ContextType, RequireFields<QueryGetClaimTypeArgs, '_id'>>;
-  getClaimTypes?: Resolver<Array<ResolversTypes['ClaimType']>, ParentType, ContextType>;
-  getClaims?: Resolver<Array<ResolversTypes['Claim']>, ParentType, ContextType>;
-  getCurrentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  claimById?: Resolver<ResolversTypes['Claim'], ParentType, ContextType, RequireFields<QueryClaimByIdArgs, '_id'>>;
+  claimLimitById?: Resolver<Maybe<ResolversTypes['ClaimLimit']>, ParentType, ContextType, Partial<QueryClaimLimitByIdArgs>>;
+  claimLimits?: Resolver<Array<ResolversTypes['ClaimLimit']>, ParentType, ContextType>;
+  claimLimitsByUser?: Resolver<Array<ResolversTypes['ClaimLimit']>, ParentType, ContextType>;
+  claimStatuses?: Resolver<Array<ResolversTypes['ClaimStatus']>, ParentType, ContextType>;
+  claimTypeById?: Resolver<Maybe<ResolversTypes['ClaimType']>, ParentType, ContextType, RequireFields<QueryClaimTypeByIdArgs, '_id'>>;
+  claimTypes?: Resolver<Array<ResolversTypes['ClaimType']>, ParentType, ContextType>;
+  claims?: Resolver<Array<ResolversTypes['Claim']>, ParentType, ContextType>;
+  claimsByUser?: Resolver<Array<ResolversTypes['Claim']>, ParentType, ContextType>;
+  currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {

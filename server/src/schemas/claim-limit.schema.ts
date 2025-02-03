@@ -3,8 +3,9 @@ import { gql } from "graphql-tag";
 // Define the GraphQL schema
 export default gql`
   type Query {
-    getClaimLimitByUser: [ClaimLimit!]!
-    getClaimLimit(_id: String!): ClaimLimit!
+    claimLimits: [ClaimLimit!]!
+    claimLimitById(_id: ID): ClaimLimit
+    claimLimitsByUser: [ClaimLimit!]!
   }
 
   type Mutation {

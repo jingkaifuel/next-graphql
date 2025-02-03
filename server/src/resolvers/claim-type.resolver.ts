@@ -3,18 +3,16 @@ import { IClaimType } from "../models/claim-type.model";
 
 export default {
   Query: {
-    // Get all claimTypes
-    getClaimTypes: async (): Promise<IClaimType[]> => {
-      return await ClaimType.find();
+    claimTypes: async (): Promise<IClaimType[]> => {
+      return await ClaimType.find({ isActive: true });
     },
-    // Get ClaimType by ID
-    getClaimType: async (_, { _id }): Promise<IClaimType> => {
+    claimTypeById: async (_, { _id }): Promise<IClaimType> => {
+      console.log(_id);
       return await ClaimType.findById({ _id });
     },
   },
 
   Mutation: {
-    // Create a claimType
     createClaimType: async (_, args, ctx): Promise<IClaimType> => {
       if (!ctx?.user) throw new Error("Unauthorised");
       const { data } = args;
@@ -25,8 +23,6 @@ export default {
         throw new Error(e);
       }
     },
-
-    // Update an existing claimType at given claimType ID
     updateClaimType: async (_, args, ctx): Promise<IClaimType> => {
       if (!ctx?.user) throw new Error("Unauthorised");
       const { _id, data } = args;

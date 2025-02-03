@@ -3,8 +3,7 @@ import { gql } from "graphql-tag";
 // Define the GraphQL schema
 export default gql`
   type Query {
-    getClaimStatuses: [ClaimStatus]
-    getClaimStatus(_id: String!): ClaimStatus!
+    claimStatuses: [ClaimStatus!]!
   }
 
   type Mutation {
