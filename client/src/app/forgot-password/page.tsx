@@ -19,11 +19,14 @@ import client from "@/app/_lib/apolloClient";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { Form } from "@radix-ui/react-form";
-import login from "@/api/user/login";
+import resetPassword from "@/api/user/resetPassword";
 
 export default function Home() {
   // Mutations
-  const [trigger, { data, loading, error }] = useMutation(login, { client });
+  const [trigger, { data, loading, error }] = useMutation(resetPassword, {
+    client,
+  });
+  const [formError, setFormError] = useState("");
 
   // Hooks
   const { register, handleSubmit } = useForm();
@@ -34,19 +37,36 @@ export default function Home() {
 
   // ------ Effects ------
   useEffect(() => {
-    if (sessionStorage.getItem("token")) router.replace("/claims");
+    if (sessionStorage.getItem("token")) router.push("/claims");
   }, [router]);
 
   useEffect(() => {
-    if (data?.login) {
-      sessionStorage.setItem("token", data.login.token);
-      sessionStorage.setItem("user", data.login.user);
-      router.replace("/claims");
+    if (data?.resetPassword) {
+      router.push("/");
+      return;
     }
+
+    setFormError("Account not found. Please check your details and try again.");
   }, [data, router]);
+
+  useEffect(() => {
+    setFormError(error?.message || "");
+  }, [error]);
 
   // ------ Functions ------
   const onSubmit = (data: FieldValues) => {
+    setFormError("");
+    if (!data.email) {
+      setFormError("Please enter your email address.");
+      return;
+    } else if (!data.password) {
+      setFormError("Please enter your new password.");
+      return;
+    } else if (data.password != data.passwordConfirm) {
+      setFormError("Passwords do not match. Please try again.");
+      return;
+    }
+
     trigger({ variables: data });
   };
 
@@ -58,16 +78,16 @@ export default function Home() {
     <Container className={styles.page}>
       <Box className={styles.form} p="20px" m="auto">
         <Heading as="h2" mb="4">
-          Login
+          Forgot Password
         </Heading>
 
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Flex gap="3" direction="column" mb="2">
             <Flex gap="2" direction="column">
-              <Text>Username</Text>
+              <Text>Email</Text>
               <TextField.Root
-                placeholder="Enter username"
-                {...register("username")}
+                placeholder="Enter email"
+                {...register("email")}
               />
             </Flex>
             <Flex gap="2" direction="column">
@@ -89,22 +109,27 @@ export default function Home() {
                 </TextField.Slot>
               </TextField.Root>
             </Flex>
+            <Flex gap="2" direction="column">
+              <Text>Confirm Password</Text>
+              <TextField.Root
+                placeholder="Enter password again"
+                type={passwordVisible ? "text" : "password"}
+                {...register("passwordConfirm")}
+              ></TextField.Root>
+            </Flex>
           </Flex>
 
           <Container mb="2">
-            {!error || (
+            {!formError || (
               <Text size="2" color="red">
-                Invalid username or password. Please try again
+                {formError}
               </Text>
             )}
           </Container>
 
-          <Flex justify="between" align="center">
-            <Link size="2" href="/forgot-password">
-              Forgot password?
-            </Link>
+          <Flex justify="end" align="center">
             <Button type="submit" disabled={loading}>
-              Login
+              Reset Password
             </Button>
           </Flex>
         </Form>

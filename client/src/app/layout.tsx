@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@radix-ui/themes/styles.css";
 import "./globals.css";
 import { Theme } from "@radix-ui/themes";
-import AuthWrapper from "./authWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,9 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Theme>
-          <AuthWrapper>{children}</AuthWrapper>
-        </Theme>
+        <Theme>{children}</Theme>
       </body>
     </html>
   );

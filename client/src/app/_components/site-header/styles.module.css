@@ -1,0 +1,13 @@
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 32px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.headerAvatar {
+  all: unset;
+  cursor: pointer;
+}
