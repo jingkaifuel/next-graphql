@@ -1,0 +1,23 @@
+import { AuthPayload, User } from "@/gql/graphql";
+import { gql } from "@apollo/client";
+
+export default gql`
+  mutation Login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      token
+      user {
+        _id
+        username
+        email
+        position
+      }
+    }
+  }
+`;
+
+export type LoginResponse = {
+  login: User;
+};
+export type LoginPayload = {
+  data: AuthPayload;
+};

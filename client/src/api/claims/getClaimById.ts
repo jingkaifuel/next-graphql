@@ -2,8 +2,8 @@ import { Claim } from "@/gql/graphql";
 import { gql } from "@apollo/client";
 
 export default gql`
-  query {
-    getClaims {
+  query ClaimById($id: String!) {
+    claimById(_id: $id) {
       _id
       claimType {
         _id
@@ -38,6 +38,6 @@ export default gql`
   }
 `;
 
-export type GetClaimsResponse = {
-  getClaims: Claim[];
+export type GetClaimByIdResponse = {
+  claimById: Claim;
 };

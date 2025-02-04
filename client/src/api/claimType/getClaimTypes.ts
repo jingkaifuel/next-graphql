@@ -2,8 +2,8 @@ import { ClaimType } from "@/gql/graphql";
 import { gql } from "@apollo/client";
 
 export default gql`
-  query {
-    getClaimTypes {
+  query GetClaimTypes {
+    claimTypes {
       _id
       name
       description
@@ -13,5 +13,5 @@ export default gql`
 `;
 
 export type GetClaimTypesResponse = {
-  getClaimTypes: ClaimType[];
+  claimTypes: ClaimType[];
 };

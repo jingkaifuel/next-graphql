@@ -2,7 +2,7 @@ import { Claim, ClaimCreateInput } from "@/gql/graphql";
 import { gql } from "@apollo/client";
 
 export default gql`
-  mutation ($data: ClaimCreateInput!) {
+  mutation CreateClaim($data: ClaimCreateInput!) {
     createClaim(data: $data) {
       _id
       claimType {

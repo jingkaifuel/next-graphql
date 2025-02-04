@@ -2,8 +2,8 @@ import { ClaimLimit } from "@/gql/graphql";
 import { gql } from "@apollo/client";
 
 export default gql`
-  query {
-    getClaimLimitByUser {
+  query GetClaimLimitByUser {
+    claimLimitsByUser {
       _id
       year
       claimType {
@@ -19,6 +19,7 @@ export default gql`
         position
       }
       maxAmount
+      balance
       approver {
         _id
         username
@@ -31,5 +32,5 @@ export default gql`
 `;
 
 export type GetClaimLimitResponse = {
-  getClaimLimitByUser: ClaimLimit[];
+  claimLimitsByUser: ClaimLimit[];
 };
