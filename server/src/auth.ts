@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { User } from "./models";
 
-export const getLoggedInUser = async (req) => {
+export const getLoggedInUser = async ({ req, res }) => {
   const token = req.headers.authorization || "";
   if (!token) return null;
 
@@ -10,6 +10,6 @@ export const getLoggedInUser = async (req) => {
     const user = await User.findById(decoded["userId"]);
     return user;
   } catch (error) {
-    throw new Error("Invalid or expired token");
+    throw new Error("Unauthorised");
   }
 };

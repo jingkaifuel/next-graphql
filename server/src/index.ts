@@ -23,7 +23,7 @@ async function startApolloServer() {
   const { url } = await startStandaloneServer(server, {
     context: async ({ req, res }) => {
       // Get the current user from the request header
-      const user = await getLoggedInUser(req);
+      const user = await getLoggedInUser({ req, res });
       return { req, res, user };
     },
   });
