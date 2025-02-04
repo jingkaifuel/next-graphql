@@ -7,7 +7,6 @@ export default {
       return await ClaimType.find({ isActive: true });
     },
     claimTypeById: async (_, { _id }): Promise<IClaimType> => {
-      console.log(_id);
       return await ClaimType.findById({ _id });
     },
   },

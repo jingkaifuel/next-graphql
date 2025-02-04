@@ -20,7 +20,7 @@ export default {
         username,
         password,
       });
-      if (!user) throw new Error("Invalid username or password");
+      if (!user) throw new Error();
 
       // Sign the access token to keep user authorised
       const token = jwt.sign(
@@ -72,6 +72,15 @@ export default {
       );
 
       return { token: accessToken, user };
+    },
+    // Reset user password from email
+    resetPassword: async (_, args) => {
+      const { email, password } = args;
+      try {
+        return await User.findOneAndUpdate({ email }, { password });
+      } catch (e) {
+        throw new Error(e);
+      }
     },
 
     createUser: async (_, args, ctx) => {

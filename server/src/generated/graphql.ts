@@ -47,6 +47,7 @@ export type ClaimLimit = {
   __typename?: 'ClaimLimit';
   _id: Scalars['ID']['output'];
   approver?: Maybe<Array<Maybe<User>>>;
+  balance: Scalars['Float']['output'];
   claimType: ClaimType;
   isActive?: Maybe<Scalars['Boolean']['output']>;
   maxAmount: Scalars['Float']['output'];
@@ -112,6 +113,7 @@ export type Mutation = {
   createUser?: Maybe<User>;
   login?: Maybe<AuthPayload>;
   refresh?: Maybe<AuthPayload>;
+  resetPassword?: Maybe<User>;
   updateClaim?: Maybe<Claim>;
   updateClaimLimit?: Maybe<ClaimLimit>;
   updateClaimStatus?: Maybe<ClaimStatus>;
@@ -153,6 +155,12 @@ export type MutationLoginArgs = {
 
 export type MutationRefreshArgs = {
   token: Scalars['String']['input'];
+};
+
+
+export type MutationResetPasswordArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 
@@ -364,6 +372,7 @@ export type ClaimResolvers<ContextType = any, ParentType extends ResolversParent
 export type ClaimLimitResolvers<ContextType = any, ParentType extends ResolversParentTypes['ClaimLimit'] = ResolversParentTypes['ClaimLimit']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   approver?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  balance?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   claimType?: Resolver<ResolversTypes['ClaimType'], ParentType, ContextType>;
   isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   maxAmount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
@@ -396,6 +405,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationCreateUserArgs>>;
   login?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'username'>>;
   refresh?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationRefreshArgs, 'token'>>;
+  resetPassword?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'email' | 'password'>>;
   updateClaim?: Resolver<Maybe<ResolversTypes['Claim']>, ParentType, ContextType, RequireFields<MutationUpdateClaimArgs, '_id' | 'data'>>;
   updateClaimLimit?: Resolver<Maybe<ResolversTypes['ClaimLimit']>, ParentType, ContextType, RequireFields<MutationUpdateClaimLimitArgs, '_id' | 'data'>>;
   updateClaimStatus?: Resolver<Maybe<ResolversTypes['ClaimStatus']>, ParentType, ContextType, RequireFields<MutationUpdateClaimStatusArgs, '_id' | 'data'>>;

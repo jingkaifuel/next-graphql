@@ -8,6 +8,7 @@ export interface IClaimLimit extends Document {
   claimType: IClaimType;
   user: IUser;
   maxAmount: number;
+  balance: number;
   approver: [IUser];
   isActive: boolean;
 }

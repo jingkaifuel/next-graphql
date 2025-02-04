@@ -19,6 +19,7 @@ export default gql`
     claimType: ClaimType!
     user: User!
     maxAmount: Float!
+    balance: Float!
     approver: [User]
     isActive: Boolean
   }
