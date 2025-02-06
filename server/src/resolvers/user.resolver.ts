@@ -21,10 +21,12 @@ export default {
         password,
       });
       if (!user) throw new Error();
+      const { _id, email, position } = user;
+      const formattedUser = { _id, email, position };
 
       // Sign the access token to keep user authorised
       const token = jwt.sign(
-        { userId: user._id },
+        { ...formattedUser },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "1h" }
       );
@@ -44,7 +46,7 @@ export default {
         maxAge: 24 * 60 * 60 * 1000,
       });
 
-      return { token, user };
+      return { token };
     },
     // Refresh access token with given refresh token
     refresh: async (_, args) => {
@@ -62,16 +64,17 @@ export default {
         }
       );
 
-      const user = await User.findById(decoded["userId"]);
+      const { _id, email, position } = await User.findById(decoded["userId"]);
+      const formattedUser = { _id, email, position };
 
       // Correct token we send a new access token
       const accessToken = jwt.sign(
-        { userId: user._id },
+        { user: formattedUser },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "10m" }
       );
 
-      return { token: accessToken, user };
+      return { token: accessToken };
     },
     // Reset user password from email
     resetPassword: async (_, args) => {

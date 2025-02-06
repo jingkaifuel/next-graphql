@@ -12,8 +12,7 @@ const errorLink = onError(({ graphQLErrors }) => {
     e.message.includes("Unauthorised")
   );
 
-  if (isUnauthorised) {
-    sessionStorage.clear();
+  if (isUnauthorised && typeof window !== "undefined") {
     window.location.href = "/";
   }
 });
@@ -24,7 +23,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = sessionStorage.getItem("token");
+  const token = sessionStorage?.getItem("token");
   return {
     headers: {
       ...headers,

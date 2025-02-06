@@ -6,7 +6,6 @@ export default function Template({ children }: PropsWithChildren) {
   return (
     <Container className="wrapper small">
       <PageHeader title="Add Claim" />
-
       {children}
     </Container>
   );

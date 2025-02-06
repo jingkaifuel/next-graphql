@@ -6,7 +6,6 @@ export default function ClaimDetail({ children }: PropsWithChildren) {
   return (
     <Container className="wrapper small">
       <PageHeader title="Edit Claim" />
-
       {children}
     </Container>
   );

@@ -19,7 +19,6 @@ export type Scalars = {
 export type AuthPayload = {
   __typename?: 'AuthPayload';
   token: Scalars['String']['output'];
-  user: User;
 };
 
 export type Claim = {
@@ -351,7 +350,6 @@ export type ResolversParentTypes = {
 
 export type AuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = {
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

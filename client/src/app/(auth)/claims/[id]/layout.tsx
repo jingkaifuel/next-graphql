@@ -2,7 +2,8 @@
 
 import PageHeader from "@/app/_components/page-header/page-header";
 import { Pencil2Icon } from "@radix-ui/react-icons";
-import { Button, Container, Link, Text } from "@radix-ui/themes";
+import { Button, Container, Text } from "@radix-ui/themes";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { PropsWithChildren } from "react";
 

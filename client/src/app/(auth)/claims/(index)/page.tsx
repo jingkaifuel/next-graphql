@@ -5,11 +5,11 @@ import { useSuspenseQuery } from "@apollo/client";
 
 import { useRouter } from "next/navigation";
 import getClaims, { GetClaimsResponse } from "@/api/claims/getClaims";
-import client from "../../../_lib/apolloClient";
 import { formatValue } from "../../../_lib/formatValue";
 import formatDate from "../../../_lib/formatDate";
 import Pagination from "../../../_components/pagination/pagination";
 import { useMemo, useState } from "react";
+import client from "@/app/_lib/apolloClient";
 
 export default function Claims() {
   // Query

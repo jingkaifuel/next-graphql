@@ -62,7 +62,7 @@ export default function ClaimDetail() {
     }
   }, [loading, data, router]);
 
-  // ------ Functions ------
+  // Functions
   const handleAmountBlur = (e: FocusEvent<HTMLInputElement>) => {
     e.target.value = parseFloat(e.target.value).toFixed(2);
     e.target.blur();
@@ -101,7 +101,7 @@ export default function ClaimDetail() {
           px="4"
           py="3"
         >
-          <Text>Claim Details</Text>
+          <Text>Claim Limit</Text>
           <DataList.Root mt="3">
             <DataList.Item align="center">
               <DataList.Label>Claim Type</DataList.Label>
