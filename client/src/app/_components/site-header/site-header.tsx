@@ -1,10 +1,9 @@
 "use client";
 
-import { Avatar, Container, DropdownMenu, Flex } from "@radix-ui/themes";
+import { Avatar, Container, DropdownMenu, Flex, Link } from "@radix-ui/themes";
 import styles from "./styles.module.css";
 import { ExitIcon, PersonIcon } from "@radix-ui/react-icons";
 import useAuthStore from "@/app/_store/authStore";
-import Link from "next/link";
 
 const SiteHeader = () => {
   const { user, reset } = useAuthStore();

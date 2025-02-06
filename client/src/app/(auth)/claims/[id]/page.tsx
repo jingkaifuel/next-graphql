@@ -56,9 +56,7 @@ export default function ClaimDetail() {
       </DataList.Item>
       <DataList.Item align="center">
         <DataList.Label>Remark</DataList.Label>
-        <DataList.Value>
-          {formatValue(data?.claimById.remark || undefined)}
-        </DataList.Value>
+        <DataList.Value>{formatValue(data?.claimById.remark)}</DataList.Value>
       </DataList.Item>
     </DataList.Root>
   );

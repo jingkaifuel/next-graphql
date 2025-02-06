@@ -111,7 +111,6 @@ export type Mutation = {
   createClaimType?: Maybe<ClaimType>;
   createUser?: Maybe<User>;
   login?: Maybe<AuthPayload>;
-  refresh?: Maybe<AuthPayload>;
   resetPassword?: Maybe<User>;
   updateClaim?: Maybe<Claim>;
   updateClaimLimit?: Maybe<ClaimLimit>;
@@ -149,11 +148,6 @@ export type MutationCreateUserArgs = {
 export type MutationLoginArgs = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
-};
-
-
-export type MutationRefreshArgs = {
-  token: Scalars['String']['input'];
 };
 
 
@@ -204,6 +198,8 @@ export type Query = {
   claims: Array<Claim>;
   claimsByUser: Array<Claim>;
   currentUser?: Maybe<User>;
+  userById: User;
+  users: Array<User>;
 };
 
 
@@ -221,16 +217,23 @@ export type QueryClaimTypeByIdArgs = {
   _id: Scalars['ID']['input'];
 };
 
+
+export type QueryUserByIdArgs = {
+  _id: Scalars['String']['input'];
+};
+
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID']['output'];
   email?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   position?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
 };
 
 export type UserInput = {
   email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   position?: InputMaybe<Scalars['String']['input']>;
   username: Scalars['String']['input'];
 };
@@ -402,7 +405,6 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createClaimType?: Resolver<Maybe<ResolversTypes['ClaimType']>, ParentType, ContextType, RequireFields<MutationCreateClaimTypeArgs, 'data'>>;
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationCreateUserArgs>>;
   login?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'username'>>;
-  refresh?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationRefreshArgs, 'token'>>;
   resetPassword?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'email' | 'password'>>;
   updateClaim?: Resolver<Maybe<ResolversTypes['Claim']>, ParentType, ContextType, RequireFields<MutationUpdateClaimArgs, '_id' | 'data'>>;
   updateClaimLimit?: Resolver<Maybe<ResolversTypes['ClaimLimit']>, ParentType, ContextType, RequireFields<MutationUpdateClaimLimitArgs, '_id' | 'data'>>;
@@ -422,11 +424,14 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   claims?: Resolver<Array<ResolversTypes['Claim']>, ParentType, ContextType>;
   claimsByUser?: Resolver<Array<ResolversTypes['Claim']>, ParentType, ContextType>;
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  userById?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserByIdArgs, '_id'>>;
+  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   position?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

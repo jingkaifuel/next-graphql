@@ -4,11 +4,12 @@ import { gql } from "graphql-tag";
 export default gql`
   type Query {
     currentUser: User
+    users: [User!]!
+    userById(_id: String!): User!
   }
 
   type Mutation {
     login(username: String!, password: String!): AuthPayload
-    refresh(token: String!): AuthPayload
     resetPassword(email: String!, password: String!): User
     createUser(user: UserInput): User
     updateUser(_id: String!, user: UserInput): User
@@ -17,6 +18,7 @@ export default gql`
   type User {
     _id: ID!
     username: String!
+    name: String
     email: String
     position: String
   }
@@ -27,6 +29,7 @@ export default gql`
 
   input UserInput {
     username: String!
+    name: String
     email: String
     position: String
   }

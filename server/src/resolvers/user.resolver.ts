@@ -6,8 +6,15 @@ import { IUser } from "../models/user.model";
 export default {
   Query: {
     // Get current logged in user details
-    currentUser: async (_, __, ctx): Promise<IUser[]> => {
+    currentUser: async (_, __, ctx): Promise<IUser> => {
       return await ctx?.user;
+    },
+    users: async (): Promise<IUser[]> => {
+      return await User.find();
+    },
+    userById: async (_, args): Promise<IUser> => {
+      const { _id } = args;
+      return await User.findById(_id);
     },
   },
 
@@ -31,50 +38,22 @@ export default {
         { expiresIn: "1h" }
       );
 
-      // To refresh the access token if it expires, if Refresh Token is expired,
-      // user will need to login again
-      const refreshToken = jwt.sign(
-        { userId: user._id },
-        process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "1d" }
-      );
-      // Assigning refresh token in http-only cookie
-      res.cookie("refresh_token", refreshToken, {
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      });
+      // // To refresh the access token if it expires, if Refresh Token is expired,
+      // // user will need to login again
+      // const refreshToken = jwt.sign(
+      //   { userId: user._id },
+      //   process.env.REFRESH_TOKEN_SECRET,
+      //   { expiresIn: "1d" }
+      // );
+      // // Assigning refresh token in http-only cookie
+      // res.cookie("refresh_token", refreshToken, {
+      //   httpOnly: true,
+      //   sameSite: "None",
+      //   secure: true,
+      //   maxAge: 24 * 60 * 60 * 1000,
+      // });
 
       return { token };
-    },
-    // Refresh access token with given refresh token
-    refresh: async (_, args) => {
-      const { token } = args;
-
-      // Verifying refresh token
-      const decoded = await jwt.verify(
-        token,
-        process.env.REFRESH_TOKEN_SECRET,
-        async (err) => {
-          if (err) {
-            // Wrong Refesh Token
-            throw new Error("Unauthorized");
-          }
-        }
-      );
-
-      const { _id, email, position } = await User.findById(decoded["userId"]);
-      const formattedUser = { _id, email, position };
-
-      // Correct token we send a new access token
-      const accessToken = jwt.sign(
-        { user: formattedUser },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "10m" }
-      );
-
-      return { token: accessToken };
     },
     // Reset user password from email
     resetPassword: async (_, args) => {

@@ -1,3 +1,3 @@
-export const formatValue = (value?: string) => {
+export const formatValue = (value?: string | null) => {
   return value ?? "-";
 };
