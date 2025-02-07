@@ -28,8 +28,8 @@ export default {
         password,
       });
       if (!user) throw new Error();
-      const { _id, email, position } = user;
-      const formattedUser = { _id, email, position };
+      const { _id, email, name, position } = user;
+      const formattedUser = { _id, email, name, position };
 
       // Sign the access token to keep user authorised
       const token = jwt.sign(

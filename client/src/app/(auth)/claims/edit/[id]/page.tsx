@@ -20,7 +20,7 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import { useParams, useRouter } from "next/navigation";
-import { FocusEvent, useEffect, useMemo, useState } from "react";
+import { FocusEvent, useMemo, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 export default function ClaimDetail() {
@@ -37,7 +37,7 @@ export default function ClaimDetail() {
   );
 
   // Mutation
-  const [trigger, { data, loading }] = useMutation(updateClaim, {
+  const [trigger, { loading }] = useMutation(updateClaim, {
     client,
   });
 
@@ -55,27 +55,20 @@ export default function ClaimDetail() {
     return { ...data, balance };
   }, [claimData, claimLimitsData]);
 
-  // Effects
-  useEffect(() => {
-    if (!loading && data) {
-      router.back();
-    }
-  }, [loading, data, router]);
-
   // Functions
   const handleAmountBlur = (e: FocusEvent<HTMLInputElement>) => {
     e.target.value = parseFloat(e.target.value).toFixed(2);
     e.target.blur();
   };
 
-  const onSubmit = (val: FieldValues) => {
+  const onSubmit = async (val: FieldValues) => {
     setFormError("");
     if (claimLimit?.balance && val.amount > claimLimit?.balance) {
       setFormError("Amount exceeds your claim balance.");
       return;
     }
 
-    trigger({
+    const { data } = await trigger({
       variables: {
         id,
         data: {
@@ -85,6 +78,8 @@ export default function ClaimDetail() {
         },
       },
     });
+
+    if (data) router.back();
   };
 
   return (

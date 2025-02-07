@@ -20,10 +20,12 @@ const documents = {
     "\n  query ClaimById($id: String!) {\n    claimById(_id: $id) {\n      _id\n      claimType {\n        _id\n        name\n        description\n        isActive\n      }\n      description\n      createdBy {\n        _id\n        username\n        email\n        position\n      }\n      createdAt\n      updatedAt\n      amount\n      remark\n      approvedBy {\n        _id\n        username\n        email\n        position\n      }\n      status {\n        _id\n        name\n        description\n        isActive\n      }\n    }\n  }\n": types.ClaimByIdDocument,
     "\n  query GetClaims {\n    claims {\n      _id\n      claimType {\n        _id\n        name\n        description\n        isActive\n      }\n      description\n      createdBy {\n        _id\n        username\n        email\n        position\n      }\n      createdAt\n      updatedAt\n      amount\n      remark\n      approvedBy {\n        _id\n        username\n        email\n        position\n      }\n      status {\n        _id\n        name\n        description\n        isActive\n      }\n    }\n  }\n": types.GetClaimsDocument,
     "\n  mutation UpdateClaim($id: String!, $data: ClaimUpdateInput!) {\n    updateClaim(_id: $id, data: $data) {\n      _id\n      claimType {\n        _id\n        name\n        description\n        isActive\n      }\n      description\n      createdBy {\n        _id\n        username\n        email\n        position\n      }\n      createdAt\n      updatedAt\n      amount\n      remark\n      approvedBy {\n        _id\n        username\n        email\n        position\n      }\n      status {\n        _id\n        name\n        description\n        isActive\n      }\n    }\n  }\n": types.UpdateClaimDocument,
+    "\n  mutation CreateUser($user: UserCreateInput) {\n    createUser(user: $user) {\n      _id\n      username\n      name\n      email\n      position\n    }\n  }\n": types.CreateUserDocument,
     "\n  query UserById($id: String!) {\n    userById(_id: $id) {\n      _id\n      username\n      name\n      email\n      position\n    }\n  }\n": types.UserByIdDocument,
     "\n  query GetUsers {\n    users {\n      _id\n      username\n      name\n      email\n      position\n    }\n  }\n": types.GetUsersDocument,
     "\n  mutation Login($username: String!, $password: String!) {\n    login(username: $username, password: $password) {\n      token\n    }\n  }\n": types.LoginDocument,
     "\n  mutation ResetPassword($email: String!, $password: String!) {\n    resetPassword(email: $email, password: $password) {\n      _id\n      username\n      email\n      position\n    }\n  }\n": types.ResetPasswordDocument,
+    "\n  mutation UpdateUser($id: String!, $user: UserInput) {\n    updateUser(_id: $id, user: $user) {\n      _id\n      username\n      name\n      email\n      position\n    }\n  }\n": types.UpdateUserDocument,
 };
 
 /**
@@ -67,6 +69,10 @@ export function graphql(source: "\n  mutation UpdateClaim($id: String!, $data: C
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation CreateUser($user: UserCreateInput) {\n    createUser(user: $user) {\n      _id\n      username\n      name\n      email\n      position\n    }\n  }\n"): (typeof documents)["\n  mutation CreateUser($user: UserCreateInput) {\n    createUser(user: $user) {\n      _id\n      username\n      name\n      email\n      position\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query UserById($id: String!) {\n    userById(_id: $id) {\n      _id\n      username\n      name\n      email\n      position\n    }\n  }\n"): (typeof documents)["\n  query UserById($id: String!) {\n    userById(_id: $id) {\n      _id\n      username\n      name\n      email\n      position\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -80,6 +86,10 @@ export function graphql(source: "\n  mutation Login($username: String!, $passwor
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation ResetPassword($email: String!, $password: String!) {\n    resetPassword(email: $email, password: $password) {\n      _id\n      username\n      email\n      position\n    }\n  }\n"): (typeof documents)["\n  mutation ResetPassword($email: String!, $password: String!) {\n    resetPassword(email: $email, password: $password) {\n      _id\n      username\n      email\n      position\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateUser($id: String!, $user: UserInput) {\n    updateUser(_id: $id, user: $user) {\n      _id\n      username\n      name\n      email\n      position\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateUser($id: String!, $user: UserInput) {\n    updateUser(_id: $id, user: $user) {\n      _id\n      username\n      name\n      email\n      position\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

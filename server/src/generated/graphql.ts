@@ -141,7 +141,7 @@ export type MutationCreateClaimTypeArgs = {
 
 
 export type MutationCreateUserArgs = {
-  user?: InputMaybe<UserInput>;
+  user?: InputMaybe<UserCreateInput>;
 };
 
 
@@ -229,6 +229,14 @@ export type User = {
   name?: Maybe<Scalars['String']['output']>;
   position?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
+};
+
+export type UserCreateInput = {
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  position: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 export type UserInput = {
@@ -326,6 +334,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
+  UserCreateInput: UserCreateInput;
   UserInput: UserInput;
 };
 
@@ -348,6 +357,7 @@ export type ResolversParentTypes = {
   Query: {};
   String: Scalars['String']['output'];
   User: User;
+  UserCreateInput: UserCreateInput;
   UserInput: UserInput;
 };
 

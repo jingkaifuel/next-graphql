@@ -1,6 +1,6 @@
 "use client";
 
-import { FocusEvent, useEffect, useMemo, useState } from "react";
+import { FocusEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Button,
@@ -36,7 +36,7 @@ export default function AddClaim() {
   );
 
   // Mutation
-  const [trigger, { data, loading }] = useMutation(createClaim, {
+  const [trigger, { loading }] = useMutation(createClaim, {
     client,
   });
 
@@ -53,27 +53,20 @@ export default function AddClaim() {
     );
   }, [selectedClaimType, claimLimitsData?.claimLimitsByUser]);
 
-  // Effects
-  useEffect(() => {
-    if (!loading && data) {
-      router.back();
-    }
-  }, [loading, data, router]);
-
   // ------ Functions ------
   const handleAmountBlur = (e: FocusEvent<HTMLInputElement>) => {
     e.target.value = parseFloat(e.target.value).toFixed(2);
     e.target.blur();
   };
 
-  const onSubmit = (val: FieldValues) => {
+  const onSubmit = async (val: FieldValues) => {
     setFormError("");
     if (claimLimitDetails?.balance && val.amount > claimLimitDetails?.balance) {
       setFormError("Amount exceeds your claim balance.");
       return;
     }
 
-    trigger({
+    const { data } = await trigger({
       variables: {
         data: {
           ...val,
@@ -82,6 +75,8 @@ export default function AddClaim() {
         },
       },
     });
+
+    if (data) router.back();
   };
 
   return (

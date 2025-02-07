@@ -1,12 +1,32 @@
 "use client";
 
-import { Avatar, Container, DropdownMenu, Flex, Link } from "@radix-ui/themes";
+import {
+  Avatar,
+  Container,
+  DropdownMenu,
+  Flex,
+  Link,
+  Text,
+} from "@radix-ui/themes";
 import styles from "./styles.module.css";
 import { ExitIcon, PersonIcon } from "@radix-ui/react-icons";
 import useAuthStore from "@/app/_store/authStore";
 
 const SiteHeader = () => {
   const { user, reset } = useAuthStore();
+
+  const getInitials = (name?: string | null): string => {
+    if (!name) return ""; // Handle undefined or empty string
+
+    const words = name.trim().split(/\s+/); // Split by spaces, handling extra spaces
+    if (words.length === 0) return ""; // Handle cases with only spaces
+
+    if (words.length === 1) {
+      return words[0][0]?.toUpperCase() || ""; // Ensure no error on empty string
+    }
+
+    return (words[0][0] + words[1][0]).toUpperCase();
+  };
 
   const handleLogout = () => {
     reset();
@@ -25,10 +45,20 @@ const SiteHeader = () => {
           <DropdownMenu.Root>
             <DropdownMenu.Trigger>
               <button type="button" className={styles.headerAvatar}>
-                <Avatar fallback="A" radius="full"></Avatar>
+                <Avatar
+                  fallback={getInitials(user?.name)}
+                  radius="full"
+                ></Avatar>
               </button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content>
+              <DropdownMenu.Item>
+                <Text weight="bold">Welcome, </Text>
+                <Text>{user?.name || "User"}</Text>
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Separator />
+
               <DropdownMenu.Item>
                 <PersonIcon />
                 Profile

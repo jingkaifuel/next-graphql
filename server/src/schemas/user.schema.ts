@@ -11,7 +11,7 @@ export default gql`
   type Mutation {
     login(username: String!, password: String!): AuthPayload
     resetPassword(email: String!, password: String!): User
-    createUser(user: UserInput): User
+    createUser(user: UserCreateInput): User
     updateUser(_id: String!, user: UserInput): User
   }
 
@@ -32,5 +32,13 @@ export default gql`
     name: String
     email: String
     position: String
+  }
+
+  input UserCreateInput {
+    username: String!
+    name: String!
+    password: String!
+    email: String!
+    position: String!
   }
 `;
