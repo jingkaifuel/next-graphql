@@ -21,6 +21,7 @@ export default gql`
     name: String
     email: String
     position: String
+    isActive: Boolean
   }
 
   type AuthPayload {
@@ -28,10 +29,10 @@ export default gql`
   }
 
   input UserInput {
-    username: String!
     name: String
     email: String
     position: String
+    isActive: Boolean
   }
 
   input UserCreateInput {

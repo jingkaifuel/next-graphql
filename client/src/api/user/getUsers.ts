@@ -9,6 +9,7 @@ export default gql`
       name
       email
       position
+      isActive
     }
   }
 `;

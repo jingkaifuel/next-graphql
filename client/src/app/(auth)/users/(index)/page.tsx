@@ -75,6 +75,7 @@ export default function Claims() {
               <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>Position</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -90,6 +91,9 @@ export default function Claims() {
                 <Table.Cell>
                   {POSITIONS_MAP[user.position || ""] ||
                     formatValue(user.position)}
+                </Table.Cell>
+                <Table.Cell>
+                  {user.isActive ? "Active" : "Deactivated"}
                 </Table.Cell>
               </Table.Row>
             ))}
