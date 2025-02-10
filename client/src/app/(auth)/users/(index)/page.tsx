@@ -5,7 +5,6 @@ import {
   Button,
   Container,
   Flex,
-  Link,
   Spinner,
   Table,
   Text,
@@ -20,6 +19,7 @@ import client from "@/app/_lib/apolloClient";
 import { formatValue } from "@/app/_lib/formatValue";
 import Pagination from "@/app/_components/pagination/pagination";
 import { POSITIONS_MAP } from "@/app/_lib/constants";
+import Link from "next/link";
 
 export default function Claims() {
   // Query

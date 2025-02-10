@@ -1,16 +1,10 @@
 "use client";
 
-import {
-  Avatar,
-  Container,
-  DropdownMenu,
-  Flex,
-  Link,
-  Text,
-} from "@radix-ui/themes";
+import { Avatar, Container, DropdownMenu, Flex, Text } from "@radix-ui/themes";
 import styles from "./styles.module.css";
 import { ExitIcon, PersonIcon } from "@radix-ui/react-icons";
 import useAuthStore from "@/app/_store/authStore";
+import Link from "next/link";
 
 const SiteHeader = () => {
   const { user, reset } = useAuthStore();
@@ -38,8 +32,19 @@ const SiteHeader = () => {
       <Container className="wrapper">
         <Flex align="center" justify="end" gap="6">
           <Flex align="center" justify="end" gap="4">
-            <Link href="/claims">Claims</Link>
-            {user?.position == "admin" && <Link href="/users">Users</Link>}
+            <Link href="/claims" className={styles.navLink}>
+              Claims
+            </Link>
+            {user?.position == "admin" && (
+              <Link href="/users" className={styles.navLink}>
+                Users
+              </Link>
+            )}
+            {user?.position == "admin" && (
+              <Link href="/manage" className={styles.navLink}>
+                Manage
+              </Link>
+            )}
           </Flex>
 
           <DropdownMenu.Root>

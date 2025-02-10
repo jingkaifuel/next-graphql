@@ -5,6 +5,7 @@ import getClaimLimits, {
 } from "@/api/claimLimit/getClaimLimits";
 import getClaimById, { GetClaimByIdResponse } from "@/api/claims/getClaimById";
 import updateClaim from "@/api/claims/updateClaim";
+import TextInput from "@/app/_components/text-input/text-input";
 import client from "@/app/_lib/apolloClient";
 import { formatValue } from "@/app/_lib/formatValue";
 import { useMutation, useSuspenseQuery } from "@apollo/client";
@@ -16,12 +17,10 @@ import {
   Flex,
   Grid,
   Text,
-  TextArea,
-  TextField,
 } from "@radix-ui/themes";
 import { useParams, useRouter } from "next/navigation";
 import { FocusEvent, useMemo, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, FormProvider, useForm } from "react-hook-form";
 
 export default function ClaimDetail() {
   const { id } = useParams();
@@ -42,7 +41,7 @@ export default function ClaimDetail() {
   });
 
   // Hooks
-  const { register, handleSubmit } = useForm();
+  const form = useForm();
   const router = useRouter();
 
   // States
@@ -83,99 +82,93 @@ export default function ClaimDetail() {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Grid columns="2" gapX="5" gapY="3" mb="4">
-        <Flex gap="2" direction="column">
-          <Text>Claim Type</Text>
-          <Text size="2">{claimData.claimById.claimType.name}</Text>
-        </Flex>
+    <FormProvider {...form}>
+      <Form onSubmit={form.handleSubmit(onSubmit)}>
+        <Grid columns="2" gapX="5" gapY="3" mb="4">
+          <Flex gap="2" direction="column">
+            <Text weight="bold">Claim Type</Text>
+            <Text size="2">{claimData.claimById.claimType.name}</Text>
+          </Flex>
 
-        <Container
-          mb="6"
-          style={{ border: "1px solid var(--gray-6", borderRadius: "8px" }}
-          px="4"
-          py="3"
-        >
-          <Text>Claim Limit</Text>
-          <DataList.Root mt="3">
-            <DataList.Item align="center">
-              <DataList.Label>Claim Type</DataList.Label>
-              <DataList.Value>
-                {formatValue(claimLimit?.claimType?.name)}
-              </DataList.Value>
-            </DataList.Item>
-            <DataList.Item align="center">
-              <DataList.Label>Maximum Amount (RM)</DataList.Label>
-              <DataList.Value>
-                {formatValue(claimLimit?.maxAmount?.toFixed(2))}
-              </DataList.Value>
-            </DataList.Item>
-            <DataList.Item align="center">
-              <DataList.Label>Balance (RM)</DataList.Label>
-              <DataList.Value>
-                {formatValue(claimLimit?.balance.toFixed(2))}
-              </DataList.Value>
-            </DataList.Item>
-            <DataList.Item align="center">
-              <DataList.Label>Approvers</DataList.Label>
-              <DataList.Value>
-                {formatValue(
-                  claimLimit?.approver
-                    ?.map((user) => user?.username)
-                    .join(", ") || undefined
-                )}
-              </DataList.Value>
-            </DataList.Item>
-          </DataList.Root>
-        </Container>
+          <Container
+            mb="6"
+            style={{ border: "1px solid var(--gray-6", borderRadius: "8px" }}
+            px="4"
+            py="3"
+          >
+            <Text weight="bold">Claim Limit</Text>
+            <DataList.Root mt="3">
+              <DataList.Item align="center">
+                <DataList.Label>Claim Type</DataList.Label>
+                <DataList.Value>
+                  {formatValue(claimLimit?.claimType?.name)}
+                </DataList.Value>
+              </DataList.Item>
+              <DataList.Item align="center">
+                <DataList.Label>Maximum Amount (RM)</DataList.Label>
+                <DataList.Value>
+                  {formatValue(claimLimit?.maxAmount?.toFixed(2))}
+                </DataList.Value>
+              </DataList.Item>
+              <DataList.Item align="center">
+                <DataList.Label>Balance (RM)</DataList.Label>
+                <DataList.Value>
+                  {formatValue(claimLimit?.balance.toFixed(2))}
+                </DataList.Value>
+              </DataList.Item>
+              <DataList.Item align="center">
+                <DataList.Label>Approvers</DataList.Label>
+                <DataList.Value>
+                  {formatValue(
+                    claimLimit?.approver
+                      ?.map((user) => user?.username)
+                      .join(", ") || undefined
+                  )}
+                </DataList.Value>
+              </DataList.Item>
+            </DataList.Root>
+          </Container>
 
-        <Flex gap="2" direction="column">
-          <Text>Description</Text>
-          <TextField.Root
-            {...register("description")}
-            defaultValue={claimData.claimById.description}
+          <TextInput
+            label="Description"
+            name="description"
             placeholder="Enter description"
+            defaultValue={claimData.claimById.description}
           />
-        </Flex>
 
-        <Flex gap="2" direction="column">
-          <Text>Amount</Text>
-          <TextField.Root
-            {...register("amount")}
+          <TextInput
+            label="Amount"
+            name="amount"
+            type="amount"
             defaultValue={claimData.claimById.amount}
             placeholder="Enter amount"
-            type="number"
             step={0.01}
             inputMode="decimal"
             onBlur={handleAmountBlur}
-          >
-            <TextField.Slot>RM</TextField.Slot>
-          </TextField.Root>
-        </Flex>
+          />
 
-        <Flex gap="2" direction="column" gridColumn="1 / span 2">
-          <Text>Remark</Text>
-          <TextArea
-            {...register("remark")}
+          <TextInput
+            label="Remark"
+            name="remark"
             defaultValue={claimData.claimById.remark || ""}
             placeholder="Enter remark"
           />
+        </Grid>
+
+        <Container mb="2">
+          {!formError || (
+            <Text size="2" color="red">
+              {formError}
+            </Text>
+          )}
+        </Container>
+
+        <Flex justify="end">
+          <Button type="submit" disabled={loading} loading={loading}>
+            Submit
+          </Button>
         </Flex>
-      </Grid>
-
-      <Container mb="2">
-        {!formError || (
-          <Text size="2" color="red">
-            {formError}
-          </Text>
-        )}
-      </Container>
-
-      <Flex justify="end">
-        <Button type="submit" disabled={loading} loading={loading}>
-          Submit
-        </Button>
-      </Flex>
-    </Form>
+      </Form>
+    </FormProvider>
   );
 }

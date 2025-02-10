@@ -11,3 +11,7 @@
   all: unset;
   cursor: pointer;
 }
+
+.navLink {
+  color: var(--accent-a11);
+}

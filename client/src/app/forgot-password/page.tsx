@@ -1,24 +1,15 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  IconButton,
-  Text,
-  TextField,
-} from "@radix-ui/themes";
-import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
+import { Box, Button, Container, Flex, Heading, Text } from "@radix-ui/themes";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import client from "@/app/_lib/apolloClient";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { Form } from "@radix-ui/react-form";
 import resetPassword from "@/api/user/resetPassword";
 import { redirect } from "next/navigation";
+import TextInput from "../_components/text-input/text-input";
 
 export default function Home() {
   // Mutations
@@ -28,10 +19,7 @@ export default function Home() {
   const [formError, setFormError] = useState("");
 
   // Hooks
-  const { register, handleSubmit } = useForm();
-
-  // States
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const form = useForm();
 
   // Effects
   useEffect(() => {
@@ -57,10 +45,6 @@ export default function Home() {
     setFormError("Account not found. Please check your details and try again.");
   };
 
-  const handlePasswordToggle = () => {
-    setPasswordVisible(!passwordVisible);
-  };
-
   return (
     <Container className={styles.page}>
       <Box className={styles.form} p="20px" m="auto">
@@ -68,58 +52,39 @@ export default function Home() {
           Forgot Password
         </Heading>
 
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Flex gap="3" direction="column" mb="2">
-            <Flex gap="2" direction="column">
-              <Text>Email</Text>
-              <TextField.Root
-                placeholder="Enter email"
-                {...register("email")}
+        <FormProvider {...form}>
+          <Form onSubmit={form.handleSubmit(onSubmit)}>
+            <Flex gap="3" direction="column" mb="2">
+              <TextInput label="Email" name="email" placeholder="Enter email" />
+              <TextInput
+                label="Password"
+                name="password"
+                type="password"
+                placeholder="Enter password"
+              />
+              <TextInput
+                label="Confirm Password"
+                name="passwordConfirm"
+                type="password"
+                placeholder="Enter password again"
               />
             </Flex>
-            <Flex gap="2" direction="column">
-              <Text>Password</Text>
-              <TextField.Root
-                placeholder="Enter password"
-                type={passwordVisible ? "text" : "password"}
-                {...register("password")}
-              >
-                <TextField.Slot></TextField.Slot>
-                <TextField.Slot>
-                  <IconButton
-                    size="1"
-                    variant="ghost"
-                    onClick={handlePasswordToggle}
-                  >
-                    {passwordVisible ? <EyeOpenIcon /> : <EyeClosedIcon />}
-                  </IconButton>
-                </TextField.Slot>
-              </TextField.Root>
-            </Flex>
-            <Flex gap="2" direction="column">
-              <Text>Confirm Password</Text>
-              <TextField.Root
-                placeholder="Enter password again"
-                type={passwordVisible ? "text" : "password"}
-                {...register("passwordConfirm")}
-              ></TextField.Root>
-            </Flex>
-          </Flex>
 
-          <Container mb="2">
-            {!formError || (
-              <Text size="2" color="red">
-                {formError}
-              </Text>
-            )}
-          </Container>
+            <Container mb="2">
+              {!formError || (
+                <Text size="2" color="red">
+                  {formError}
+                </Text>
+              )}
+            </Container>
 
-          <Flex justify="end" align="center">
-            <Button type="submit" disabled={loading}>
-              Reset Password
-            </Button>
-          </Flex>
-        </Form>
+            <Flex justify="end" align="center">
+              <Button type="submit" disabled={loading}>
+                Reset Password
+              </Button>
+            </Flex>
+          </Form>
+        </FormProvider>
       </Box>
     </Container>
   );

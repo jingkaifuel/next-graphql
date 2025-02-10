@@ -12,8 +12,14 @@ const errorLink = onError(({ graphQLErrors }) => {
     e.message.includes("Unauthorised")
   );
 
-  if (isUnauthorised && typeof window !== "undefined") {
-    window.location.href = "/";
+  if (isUnauthorised) {
+    try {
+      window.sessionStorage?.clear();
+      window.location.href = "/";
+      window.sessionStorage.setItem("expired", "true");
+    } catch {
+      return;
+    }
   }
 });
 
@@ -23,7 +29,12 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = sessionStorage?.getItem("token");
+  let token;
+  try {
+    token = window.sessionStorage?.getItem("token");
+  } catch {
+    return {};
+  }
   return {
     headers: {
       ...headers,
