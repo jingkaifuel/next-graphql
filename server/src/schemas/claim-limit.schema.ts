@@ -9,8 +9,8 @@ export default gql`
   }
 
   type Mutation {
-    createClaimLimit(data: ClaimLimitInput!): ClaimLimit
-    updateClaimLimit(_id: String!, data: ClaimLimitInput!): ClaimLimit
+    createClaimLimit(data: ClaimLimitCreateInput!): ClaimLimit
+    updateClaimLimit(_id: String!, data: ClaimLimitUpdateInput!): ClaimLimit
   }
 
   type ClaimLimit {
@@ -24,11 +24,20 @@ export default gql`
     isActive: Boolean
   }
 
-  input ClaimLimitInput {
+  input ClaimLimitCreateInput {
     year: String!
     claimType: ID!
     user: ID!
     maxAmount: Float!
+    approver: [ID]
+    isActive: Boolean
+  }
+
+  input ClaimLimitUpdateInput {
+    year: String
+    claimType: ID
+    user: ID
+    maxAmount: Float
     approver: [ID]
     isActive: Boolean
   }

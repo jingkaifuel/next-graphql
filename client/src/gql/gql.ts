@@ -15,7 +15,12 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query GetClaimLimitByUser {\n    claimLimitsByUser {\n      _id\n      year\n      claimType {\n        _id\n        name\n        description\n        isActive\n      }\n      user {\n        _id\n        username\n        email\n        position\n      }\n      maxAmount\n      balance\n      approver {\n        _id\n        username\n        email\n        position\n      }\n      isActive\n    }\n  }\n": types.GetClaimLimitByUserDocument,
+    "\n  mutation CreateClaimStatus($data: ClaimStatusCreateInput!) {\n    createClaimStatus(data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n": types.CreateClaimStatusDocument,
+    "\n  query GetClaimStatuses {\n    claimStatuses {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n": types.GetClaimStatusesDocument,
+    "\n  mutation UpdateClaimStatus($id: String!, $data: ClaimStatusUpdateInput!) {\n    updateClaimStatus(_id: $id, data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n": types.UpdateClaimStatusDocument,
+    "\n  mutation CreateClaimType($data: ClaimTypeCreateInput!) {\n    createClaimType(data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n": types.CreateClaimTypeDocument,
     "\n  query GetClaimTypes {\n    claimTypes {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n": types.GetClaimTypesDocument,
+    "\n  mutation UpdateClaimType($id: String!, $data: ClaimTypeUpdateInput!) {\n    updateClaimType(_id: $id, data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n": types.UpdateClaimTypeDocument,
     "\n  mutation CreateClaim($data: ClaimCreateInput!) {\n    createClaim(data: $data) {\n      _id\n      claimType {\n        _id\n        name\n        description\n        isActive\n      }\n      description\n      createdBy {\n        _id\n        username\n        email\n        position\n      }\n      createdAt\n      updatedAt\n      amount\n      remark\n      approvedBy {\n        _id\n        username\n        email\n        position\n      }\n      status {\n        _id\n        name\n        description\n        isActive\n      }\n    }\n  }\n": types.CreateClaimDocument,
     "\n  query ClaimById($id: String!) {\n    claimById(_id: $id) {\n      _id\n      claimType {\n        _id\n        name\n        description\n        isActive\n      }\n      description\n      createdBy {\n        _id\n        username\n        email\n        position\n      }\n      createdAt\n      updatedAt\n      amount\n      remark\n      approvedBy {\n        _id\n        username\n        email\n        position\n      }\n      status {\n        _id\n        name\n        description\n        isActive\n      }\n    }\n  }\n": types.ClaimByIdDocument,
     "\n  query GetClaims {\n    claims {\n      _id\n      claimType {\n        _id\n        name\n        description\n        isActive\n      }\n      description\n      createdBy {\n        _id\n        username\n        email\n        position\n      }\n      createdAt\n      updatedAt\n      amount\n      remark\n      approvedBy {\n        _id\n        username\n        email\n        position\n      }\n      status {\n        _id\n        name\n        description\n        isActive\n      }\n    }\n  }\n": types.GetClaimsDocument,
@@ -49,7 +54,27 @@ export function graphql(source: "\n  query GetClaimLimitByUser {\n    claimLimit
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation CreateClaimStatus($data: ClaimStatusCreateInput!) {\n    createClaimStatus(data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"): (typeof documents)["\n  mutation CreateClaimStatus($data: ClaimStatusCreateInput!) {\n    createClaimStatus(data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetClaimStatuses {\n    claimStatuses {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"): (typeof documents)["\n  query GetClaimStatuses {\n    claimStatuses {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateClaimStatus($id: String!, $data: ClaimStatusUpdateInput!) {\n    updateClaimStatus(_id: $id, data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateClaimStatus($id: String!, $data: ClaimStatusUpdateInput!) {\n    updateClaimStatus(_id: $id, data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateClaimType($data: ClaimTypeCreateInput!) {\n    createClaimType(data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"): (typeof documents)["\n  mutation CreateClaimType($data: ClaimTypeCreateInput!) {\n    createClaimType(data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query GetClaimTypes {\n    claimTypes {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"): (typeof documents)["\n  query GetClaimTypes {\n    claimTypes {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateClaimType($id: String!, $data: ClaimTypeUpdateInput!) {\n    updateClaimType(_id: $id, data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateClaimType($id: String!, $data: ClaimTypeUpdateInput!) {\n    updateClaimType(_id: $id, data: $data) {\n      _id\n      name\n      description\n      isActive\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

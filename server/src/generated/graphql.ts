@@ -54,13 +54,22 @@ export type ClaimLimit = {
   year: Scalars['String']['output'];
 };
 
-export type ClaimLimitInput = {
+export type ClaimLimitCreateInput = {
   approver?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   claimType: Scalars['ID']['input'];
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
   maxAmount: Scalars['Float']['input'];
   user: Scalars['ID']['input'];
   year: Scalars['String']['input'];
+};
+
+export type ClaimLimitUpdateInput = {
+  approver?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  claimType?: InputMaybe<Scalars['ID']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  maxAmount?: InputMaybe<Scalars['Float']['input']>;
+  user?: InputMaybe<Scalars['ID']['input']>;
+  year?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ClaimStatus = {
@@ -71,10 +80,16 @@ export type ClaimStatus = {
   name: Scalars['String']['output'];
 };
 
-export type ClaimStatusInput = {
+export type ClaimStatusCreateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
+};
+
+export type ClaimStatusUpdateInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ClaimType = {
@@ -85,10 +100,16 @@ export type ClaimType = {
   name: Scalars['String']['output'];
 };
 
-export type ClaimTypeInput = {
+export type ClaimTypeCreateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
+};
+
+export type ClaimTypeUpdateInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ClaimUpdateInput = {
@@ -126,17 +147,17 @@ export type MutationCreateClaimArgs = {
 
 
 export type MutationCreateClaimLimitArgs = {
-  data: ClaimLimitInput;
+  data: ClaimLimitCreateInput;
 };
 
 
 export type MutationCreateClaimStatusArgs = {
-  data: ClaimStatusInput;
+  data: ClaimStatusCreateInput;
 };
 
 
 export type MutationCreateClaimTypeArgs = {
-  data: ClaimTypeInput;
+  data: ClaimTypeCreateInput;
 };
 
 
@@ -165,19 +186,19 @@ export type MutationUpdateClaimArgs = {
 
 export type MutationUpdateClaimLimitArgs = {
   _id: Scalars['String']['input'];
-  data: ClaimLimitInput;
+  data: ClaimLimitUpdateInput;
 };
 
 
 export type MutationUpdateClaimStatusArgs = {
   _id: Scalars['String']['input'];
-  data: ClaimStatusInput;
+  data: ClaimStatusUpdateInput;
 };
 
 
 export type MutationUpdateClaimTypeArgs = {
   _id: Scalars['String']['input'];
-  data: ClaimTypeInput;
+  data: ClaimTypeUpdateInput;
 };
 
 
@@ -323,11 +344,14 @@ export type ResolversTypes = {
   Claim: ResolverTypeWrapper<Claim>;
   ClaimCreateInput: ClaimCreateInput;
   ClaimLimit: ResolverTypeWrapper<ClaimLimit>;
-  ClaimLimitInput: ClaimLimitInput;
+  ClaimLimitCreateInput: ClaimLimitCreateInput;
+  ClaimLimitUpdateInput: ClaimLimitUpdateInput;
   ClaimStatus: ResolverTypeWrapper<ClaimStatus>;
-  ClaimStatusInput: ClaimStatusInput;
+  ClaimStatusCreateInput: ClaimStatusCreateInput;
+  ClaimStatusUpdateInput: ClaimStatusUpdateInput;
   ClaimType: ResolverTypeWrapper<ClaimType>;
-  ClaimTypeInput: ClaimTypeInput;
+  ClaimTypeCreateInput: ClaimTypeCreateInput;
+  ClaimTypeUpdateInput: ClaimTypeUpdateInput;
   ClaimUpdateInput: ClaimUpdateInput;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -346,11 +370,14 @@ export type ResolversParentTypes = {
   Claim: Claim;
   ClaimCreateInput: ClaimCreateInput;
   ClaimLimit: ClaimLimit;
-  ClaimLimitInput: ClaimLimitInput;
+  ClaimLimitCreateInput: ClaimLimitCreateInput;
+  ClaimLimitUpdateInput: ClaimLimitUpdateInput;
   ClaimStatus: ClaimStatus;
-  ClaimStatusInput: ClaimStatusInput;
+  ClaimStatusCreateInput: ClaimStatusCreateInput;
+  ClaimStatusUpdateInput: ClaimStatusUpdateInput;
   ClaimType: ClaimType;
-  ClaimTypeInput: ClaimTypeInput;
+  ClaimTypeCreateInput: ClaimTypeCreateInput;
+  ClaimTypeUpdateInput: ClaimTypeUpdateInput;
   ClaimUpdateInput: ClaimUpdateInput;
   Float: Scalars['Float']['output'];
   ID: Scalars['ID']['output'];

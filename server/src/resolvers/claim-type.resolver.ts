@@ -4,7 +4,7 @@ import { IClaimType } from "../models/claim-type.model";
 export default {
   Query: {
     claimTypes: async (): Promise<IClaimType[]> => {
-      return await ClaimType.find({ isActive: true });
+      return await ClaimType.find();
     },
     claimTypeById: async (_, { _id }): Promise<IClaimType> => {
       return await ClaimType.findById({ _id });

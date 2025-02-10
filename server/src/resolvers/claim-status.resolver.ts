@@ -4,7 +4,7 @@ import { IClaimStatus } from "../models/claim-status.model";
 export default {
   Query: {
     claimStatuses: async (): Promise<IClaimStatus[]> => {
-      return await ClaimStatus.find({ isActive: true });
+      return await ClaimStatus.find();
     },
   },
 

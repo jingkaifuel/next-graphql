@@ -8,8 +8,8 @@ export default gql`
   }
 
   type Mutation {
-    createClaimType(data: ClaimTypeInput!): ClaimType
-    updateClaimType(_id: String!, data: ClaimTypeInput!): ClaimType
+    createClaimType(data: ClaimTypeCreateInput!): ClaimType
+    updateClaimType(_id: String!, data: ClaimTypeUpdateInput!): ClaimType
   }
 
   type ClaimType {
@@ -19,8 +19,14 @@ export default gql`
     isActive: Boolean
   }
 
-  input ClaimTypeInput {
+  input ClaimTypeCreateInput {
     name: String!
+    description: String
+    isActive: Boolean
+  }
+
+  input ClaimTypeUpdateInput {
+    name: String
     description: String
     isActive: Boolean
   }
