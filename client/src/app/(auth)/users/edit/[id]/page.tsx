@@ -24,14 +24,11 @@ export default function Page() {
   return (
     <Container className="wrapper small">
       <PageHeader title="Edit User" />
-
-      <Suspense fallback={<Spinner size="3" m="auto" />}>
-        <DetailsForm user={data} />
-      </Suspense>
+      <DetailsForm user={data} />
 
       {user?._id === id ? (
         <>
-          <PageHeader title="Reset Password" showBack={false} />
+          <PageHeader title="Reset Password" isSecondary={true} />
 
           <Suspense fallback={<Spinner size="3" m="auto" />}>
             <ResetPasswordForm />

@@ -212,6 +212,7 @@ export type Query = {
   claimById: Claim;
   claimLimitById?: Maybe<ClaimLimit>;
   claimLimits: Array<ClaimLimit>;
+  claimLimitsByType: Array<ClaimLimit>;
   claimLimitsByUser: Array<ClaimLimit>;
   claimStatuses: Array<ClaimStatus>;
   claimTypeById?: Maybe<ClaimType>;
@@ -231,6 +232,11 @@ export type QueryClaimByIdArgs = {
 
 export type QueryClaimLimitByIdArgs = {
   _id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryClaimLimitsByTypeArgs = {
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -455,6 +461,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   claimById?: Resolver<ResolversTypes['Claim'], ParentType, ContextType, RequireFields<QueryClaimByIdArgs, '_id'>>;
   claimLimitById?: Resolver<Maybe<ResolversTypes['ClaimLimit']>, ParentType, ContextType, Partial<QueryClaimLimitByIdArgs>>;
   claimLimits?: Resolver<Array<ResolversTypes['ClaimLimit']>, ParentType, ContextType>;
+  claimLimitsByType?: Resolver<Array<ResolversTypes['ClaimLimit']>, ParentType, ContextType, Partial<QueryClaimLimitsByTypeArgs>>;
   claimLimitsByUser?: Resolver<Array<ResolversTypes['ClaimLimit']>, ParentType, ContextType>;
   claimStatuses?: Resolver<Array<ResolversTypes['ClaimStatus']>, ParentType, ContextType>;
   claimTypeById?: Resolver<Maybe<ResolversTypes['ClaimType']>, ParentType, ContextType, RequireFields<QueryClaimTypeByIdArgs, '_id'>>;

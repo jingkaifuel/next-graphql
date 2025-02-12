@@ -1,14 +1,7 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
-import {
-  Button,
-  Container,
-  Flex,
-  Spinner,
-  Table,
-  Text,
-} from "@radix-ui/themes";
+import { useMemo, useState } from "react";
+import { Button, Container, Flex, Table, Text } from "@radix-ui/themes";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useSuspenseQuery } from "@apollo/client";
 
@@ -56,7 +49,7 @@ export default function Claims() {
 
   return (
     <Container className="wrapper">
-      <PageHeader title="Users" showBack={false} />
+      <PageHeader title="Users" hideBack={true} />
       <Flex justify="between" mb="5">
         <Searchbar placeholder="Search users..." onChange={setSearch} />
 
@@ -68,42 +61,40 @@ export default function Claims() {
         </Link>
       </Flex>
 
-      <Suspense fallback={<Spinner size="3" m="auto" />}>
-        <Table.Root variant="surface">
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Position</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-            </Table.Row>
-          </Table.Header>
+      <Table.Root variant="surface">
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Position</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
+          </Table.Row>
+        </Table.Header>
 
-          <Table.Body>
-            {userList.map((user) => (
-              <Table.Row key={user._id}>
-                <Table.Cell>
-                  <Link href={`/users/${user._id}`}>
-                    {formatValue(user.name)}
-                  </Link>
-                </Table.Cell>
-                <Table.Cell>{formatValue(user.email)}</Table.Cell>
-                <Table.Cell>
-                  {POSITIONS_MAP[user.position || ""] ||
-                    formatValue(user.position)}
-                </Table.Cell>
-                <Table.Cell>
-                  {user.isActive ? "Active" : "Deactivated"}
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
-        <Pagination
-          count={(data?.users.length ?? 0) / maxCount}
-          onPagination={handlePagination}
-        />
-      </Suspense>
+        <Table.Body>
+          {userList.map((user) => (
+            <Table.Row key={user._id}>
+              <Table.Cell>
+                <Link href={`/users/${user._id}`}>
+                  {formatValue(user.name)}
+                </Link>
+              </Table.Cell>
+              <Table.Cell>{formatValue(user.email)}</Table.Cell>
+              <Table.Cell>
+                {POSITIONS_MAP[user.position || ""] ||
+                  formatValue(user.position)}
+              </Table.Cell>
+              <Table.Cell>
+                {user.isActive ? "Active" : "Deactivated"}
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
+      <Pagination
+        count={(data?.users.length ?? 0) / maxCount}
+        onPagination={handlePagination}
+      />
     </Container>
   );
 }

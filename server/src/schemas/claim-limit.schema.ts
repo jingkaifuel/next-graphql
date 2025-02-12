@@ -6,6 +6,7 @@ export default gql`
     claimLimits: [ClaimLimit!]!
     claimLimitById(_id: ID): ClaimLimit
     claimLimitsByUser: [ClaimLimit!]!
+    claimLimitsByType(type: String): [ClaimLimit!]!
   }
 
   type Mutation {

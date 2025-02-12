@@ -22,6 +22,7 @@ import getClaimStatus, {
 } from "@/api/claimStatus/getClaimStatus";
 import ClaimTypeDialog from "./claimTypeDialog";
 import ClaimStatusDialog from "./claimStatusDialog";
+import Link from "next/link";
 
 export default function Page() {
   // Queries
@@ -36,7 +37,7 @@ export default function Page() {
 
   return (
     <Container>
-      <PageHeader title="Claim Type" showBack={false}>
+      <PageHeader title="Claim Type" hideBack={true}>
         <ClaimTypeDialog onComplete={refetchClaimType}>
           <Button size="2">
             <PlusIcon />
@@ -63,7 +64,9 @@ export default function Page() {
         <Table.Body>
           {claimTypeData?.claimTypes.map((type) => (
             <Table.Row key={type._id}>
-              <Table.Cell>{type.name}</Table.Cell>
+              <Table.Cell>
+                <Link href={`/manage/claim-type/${type._id}`}>{type.name}</Link>
+              </Table.Cell>
               <Table.Cell style={{ textWrap: "wrap" }}>
                 {formatValue(type.description)}
               </Table.Cell>
@@ -99,12 +102,14 @@ export default function Page() {
           ))}
         </Table.Body>
       </Table.Root>
+
       <Container mt="6" />
-      <PageHeader title="Claim Status" showBack={false}>
+
+      <PageHeader title="Claim Status" isSecondary={true}>
         <ClaimStatusDialog onComplete={refetchClaimStatus}>
           <Button size="2">
             <PlusIcon />
-            <Text>Add Claim Type</Text>
+            <Text>Add Claim Status</Text>
           </Button>
         </ClaimStatusDialog>
       </PageHeader>
@@ -160,7 +165,7 @@ export default function Page() {
             </Table.Row>
           ))}
         </Table.Body>
-      </Table.Root>{" "}
+      </Table.Root>
     </Container>
   );
 }

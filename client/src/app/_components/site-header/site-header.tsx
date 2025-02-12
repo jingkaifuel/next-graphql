@@ -32,19 +32,9 @@ const SiteHeader = () => {
       <Container className="wrapper">
         <Flex align="center" justify="end" gap="6">
           <Flex align="center" justify="end" gap="4">
-            <Link href="/claims" className={styles.navLink}>
-              Claims
-            </Link>
-            {user?.position == "admin" && (
-              <Link href="/users" className={styles.navLink}>
-                Users
-              </Link>
-            )}
-            {user?.position == "admin" && (
-              <Link href="/manage" className={styles.navLink}>
-                Manage
-              </Link>
-            )}
+            <Link href="/claims">Claims</Link>
+            {user?.position == "admin" && <Link href="/users">Users</Link>}
+            {user?.position == "admin" && <Link href="/manage">Manage</Link>}
           </Flex>
 
           <DropdownMenu.Root>

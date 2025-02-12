@@ -19,7 +19,6 @@ import {
   DataList,
   Flex,
   Grid,
-  Heading,
   Text,
 } from "@radix-ui/themes";
 import Link from "next/link";
@@ -143,15 +142,12 @@ export default function Page() {
 
       <Container mt="6"></Container>
 
-      <Flex justify="between">
-        <Heading size="5" mb="4">
-          Claim Limits
-        </Heading>
+      <PageHeader title="Claim Limits" isSecondary={true}>
         <Button>
           <PlusIcon />
           <Text>Add</Text>
         </Button>
-      </Flex>
+      </PageHeader>
       <Grid columns="2" gapX="3" gapY="2">
         {limitData.claimLimitsByUser.map((limit) => {
           return (

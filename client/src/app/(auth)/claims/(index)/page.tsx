@@ -1,18 +1,10 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
-import {
-  Button,
-  Container,
-  Flex,
-  Spinner,
-  Table,
-  Text,
-} from "@radix-ui/themes";
+import { useMemo, useState } from "react";
+import { Button, Container, Flex, Table, Text } from "@radix-ui/themes";
 import { PlusIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useSuspenseQuery } from "@apollo/client";
-import { useRouter } from "next/navigation";
 
 import getClaims, { GetClaimsResponse } from "@/api/claims/getClaims";
 import PageHeader from "@/app/_components/page-header/page-header";
@@ -21,6 +13,7 @@ import client from "@/app/_lib/apolloClient";
 import { formatValue } from "@/app/_lib/formatValue";
 import Pagination from "@/app/_components/pagination/pagination";
 import formatDate from "@/app/_lib/formatDate";
+import useAuthStore from "@/app/_store/authStore";
 
 export default function Claims() {
   // Query
@@ -30,7 +23,7 @@ export default function Claims() {
   });
 
   // Hooks
-  const router = useRouter();
+  const { user } = useAuthStore();
 
   // Filtering
   const [search, setSearch] = useState("");
@@ -61,7 +54,7 @@ export default function Claims() {
 
   return (
     <Container className="wrapper">
-      <PageHeader title="Claims" showBack={false} />
+      <PageHeader title="Claims" hideBack={true} />
       <Flex justify="between" mb="5">
         <Searchbar placeholder="Search claims..." onChange={setSearch} />
 
@@ -73,42 +66,46 @@ export default function Claims() {
         </Link>
       </Flex>
 
-      <Suspense fallback={<Spinner size="3" m="auto" />}>
-        <Table.Root variant="surface">
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeaderCell>Claim Type</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Created At</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Updated At</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Approved By</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-            </Table.Row>
-          </Table.Header>
+      <Table.Root variant="surface">
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeaderCell>Claim Type</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Created At</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Updated At</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Approved By</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
+          </Table.Row>
+        </Table.Header>
 
-          <Table.Body>
-            {claimsList.map((claim) => (
-              <Table.Row
-                key={claim._id}
-                onClick={() => router.push(`/claims/${claim._id}`)}
-              >
-                <Table.Cell>{claim.claimType.name}</Table.Cell>
-                <Table.Cell>{formatValue(claim.description)}</Table.Cell>
-                <Table.Cell>{formatDate(claim.createdAt)}</Table.Cell>
-                <Table.Cell>{formatDate(claim.updatedAt)}</Table.Cell>
-                <Table.Cell>
-                  {formatValue(claim.approvedBy?.username)}
-                </Table.Cell>
-                <Table.Cell>{formatValue(claim.status?.name)}</Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
-        <Pagination
-          count={(data?.claims.length ?? 0) / maxCount}
-          onPagination={handlePagination}
-        />
-      </Suspense>
+        <Table.Body>
+          {claimsList.map((claim) => (
+            <Table.Row
+              key={claim._id}
+              // onClick={() => router.push(`/claims/${claim._id}`)}
+            >
+              <Table.Cell>
+                {user?.position === "admin" ? (
+                  <Link href={`/manage/claim-type/${claim.claimType._id}`}>
+                    {formatValue(claim.claimType.name)}
+                  </Link>
+                ) : (
+                  formatValue(claim.claimType.name)
+                )}
+              </Table.Cell>
+              <Table.Cell>{formatValue(claim.description)}</Table.Cell>
+              <Table.Cell>{formatDate(claim.createdAt)}</Table.Cell>
+              <Table.Cell>{formatDate(claim.updatedAt)}</Table.Cell>
+              <Table.Cell>{formatValue(claim.approvedBy?.username)}</Table.Cell>
+              <Table.Cell>{formatValue(claim.status?.name)}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
+      <Pagination
+        count={(data?.claims.length ?? 0) / maxCount}
+        onPagination={handlePagination}
+      />
     </Container>
   );
 }

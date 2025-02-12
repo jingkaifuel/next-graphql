@@ -85,7 +85,7 @@ export default function Home() {
             </Container>
 
             <Flex justify="between" align="center">
-              <Link href="/forgot-password" className={styles.link}>
+              <Link href="/forgot-password">
                 <Text size="2">Forgot password?</Text>
               </Link>
               <Button type="submit" disabled={loading}>

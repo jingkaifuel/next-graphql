@@ -67,6 +67,22 @@ export default {
       );
       return result;
     },
+    claimLimitsByType: async (_, args): Promise<IClaimLimit[]> => {
+      const { type } = args;
+      console.log(type);
+      const list = await ClaimLimit.find({
+        claimType: type,
+        isActive: true,
+      }).populate(populatedFields);
+
+      const result: IClaimLimit[] = await Promise.all(
+        list.map(async (x) => {
+          x.balance = x.maxAmount - (await getUsedAmount(x.claimType._id));
+          return x as IClaimLimit;
+        })
+      );
+      return result;
+    },
   },
 
   Mutation: {
