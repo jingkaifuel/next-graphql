@@ -69,6 +69,7 @@ export default function Claims() {
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
+            <Table.ColumnHeaderCell>Claim ID</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Claim Type</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Created At</Table.ColumnHeaderCell>
@@ -84,6 +85,11 @@ export default function Claims() {
               key={claim._id}
               // onClick={() => router.push(`/claims/${claim._id}`)}
             >
+              <Table.Cell>
+                <Link href={`/claims/${claim._id}`}>
+                  {formatValue(claim._id)}
+                </Link>
+              </Table.Cell>
               <Table.Cell>
                 {user?.position === "admin" ? (
                   <Link href={`/manage/claim-type/${claim.claimType._id}`}>

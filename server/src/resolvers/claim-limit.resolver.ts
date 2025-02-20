@@ -69,7 +69,6 @@ export default {
     },
     claimLimitsByType: async (_, args): Promise<IClaimLimit[]> => {
       const { type } = args;
-      console.log(type);
       const list = await ClaimLimit.find({
         claimType: type,
         isActive: true,

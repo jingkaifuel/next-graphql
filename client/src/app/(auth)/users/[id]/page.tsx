@@ -24,6 +24,8 @@ import {
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import styles from "./style.module.css";
+import ClaimLimitPopup from "./claimLimitPopup";
+import { useEffect } from "react";
 
 export default function Page() {
   const { id } = useParams();
@@ -66,6 +68,10 @@ export default function Page() {
       router.push("/users");
     }
   };
+
+  useEffect(() => {
+    console.log(limitData);
+  }, [limitData]);
 
   return (
     <Container className="wrapper small">
@@ -143,10 +149,12 @@ export default function Page() {
       <Container mt="6"></Container>
 
       <PageHeader title="Claim Limits" isSecondary={true}>
-        <Button>
-          <PlusIcon />
-          <Text>Add</Text>
-        </Button>
+        <ClaimLimitPopup>
+          <Button>
+            <PlusIcon />
+            <Text>Add</Text>
+          </Button>
+        </ClaimLimitPopup>
       </PageHeader>
       <Grid columns="2" gapX="3" gapY="2">
         {limitData.claimLimitsByUser.map((limit) => {
@@ -162,7 +170,9 @@ export default function Page() {
                 <DataList.Item align="center">
                   <DataList.Label>Claim Type</DataList.Label>
                   <DataList.Value>
-                    {formatValue(limit?.claimType.name)}
+                    <Link href={`/manage/claim-type/${limit?.claimType._id}`}>
+                      {formatValue(limit?.claimType.name)}
+                    </Link>
                   </DataList.Value>
                 </DataList.Item>
                 <DataList.Item align="center">
@@ -189,10 +199,12 @@ export default function Page() {
                 </DataList.Item>
               </DataList.Root>
               <Flex mt="2" justify="end">
-                <Button>
-                  <Pencil2Icon />
-                  <Text>Edit</Text>
-                </Button>
+                <ClaimLimitPopup data={limit}>
+                  <Button>
+                    <Pencil2Icon />
+                    <Text>Edit</Text>
+                  </Button>
+                </ClaimLimitPopup>
               </Flex>
             </Container>
           );

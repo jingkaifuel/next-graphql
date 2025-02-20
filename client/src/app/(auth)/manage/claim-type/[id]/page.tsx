@@ -10,9 +10,11 @@ import PageHeader from "@/app/_components/page-header/page-header";
 import client from "@/app/_lib/apolloClient";
 import { formatValue } from "@/app/_lib/formatValue";
 import { useQuery } from "@apollo/client";
-import { Container, DataList, Table } from "@radix-ui/themes";
+import { Pencil2Icon } from "@radix-ui/react-icons";
+import { Button, Container, DataList, Table, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import ClaimTypeDialog from "../../(index)/claimTypeDialog";
 
 export default function Page() {
   // Hooks
@@ -36,7 +38,14 @@ export default function Page() {
 
   return (
     <Container>
-      <PageHeader title="Claim Type" />
+      <PageHeader title="Claim Type">
+        <ClaimTypeDialog data={claimTypeData?.claimTypeById}>
+          <Button size="2">
+            <Pencil2Icon />
+            <Text>Edit</Text>
+          </Button>
+        </ClaimTypeDialog>
+      </PageHeader>
       <DataList.Root mt="3">
         <DataList.Item align="center">
           <DataList.Label>Claim Type</DataList.Label>
